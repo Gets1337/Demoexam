@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Добавить заявку</title>
+</head>
+<body>
+  <h1>Добавить заявку</h1>
+  <form id="addForm">
+
+    <label for="device">Номер заявки:</label><br>
+    <input type="text" id="number" name="number" required><br><br>
+
+    <label for="device">Устройство:</label><br>
+    <input type="text" id="device" name="device" required><br><br>
+
+    <label for="problemType">Модель:</label><br>
+    <input type="text" id="model" name="model" required><br><br>
+
+    <label for="problemType">Тип проблемы:</label><br>
+    <input type="text" id="problemType" name="problemType" required><br><br>
+
+    <label for="status">Статус:</label><br>
+    <input type="text" id="status" name="status" required><br><br>
+
+    <label for="master">Мастер:</label><br>
+    <input type="text" id="master" name="master"><br><br>
+
+    <label for="description">Номер телефона:</label><br>
+    <input type="text" id="numberPhone" name="numberPhone"><br><br>
+
+    <label for="description">Комментарий:</label><br>
+    <input type="text" id="comment" name="comment"><br><br>
+
+    <button type="submit">Добавить заявку</button>
+  </form>
+
+  <script>
+    document.getElementById('addForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const newEntry = {
+        number: document.getElementById('number').value,
+        device: document.getElementById('device').value,
+        model: document.getElementById('model').value,
+        problemType: document.getElementById('problemType').value,
+        status: document.getElementById('status').value,
+        master: document.getElementById('master').value,
+        numberPhone: document.getElementById('numberPhone').value,
+        comment: document.getElementById('comment').value,
+      };
+
+      fetch('http://localhost:3000/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newEntry),
+      })
+        .then(response => response.json())
+        .then(data => {
+          alert('Заявка добавлена');
+          document.getElementById('addForm').reset();
+        })
+        .catch(error => {
+          alert('Ошибка: ' + error);
+        });
+    });
+  </script>
+</body>
+</html>
