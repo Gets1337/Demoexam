@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Orders</title>
+</head>
+
+<body>
+  <h1>Список заявок</h1>
+  <table id="orders-table">
+    <thead>
+      <tr>
+        <th>Номер</th>
+        <th>Устройство</th>
+        <th>Модель</th>
+        <th>Статус</th>
+        <th>Номер телефона</th>
+        <th>Тип проблемы</th>
+        <th>Мастер</th>
+        <th>Комментарий</th>
+      </tr>
+    </thead>
+    <tbody id="orders-list">
+    </tbody>
+  </table>
+  <script>
+    async function fetchOrders() {
+      const response = await fetch('http://localhost:3000/');
+      const orders = await response.json();
+      const ordersList = document.getElementById('orders-list');
+      ordersList.innerHTML = '';  
+
+      orders.forEach(order => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${order.number}</td>
+          <td>${order.device}</td>
+          <td>${order.model}</td>
+          <td>${order.status}</td>
+          <td>${order.problemType}</td>
+          <td>${order.numberPhone}</td>
+          <td>${order.master}</td>
+          <td>${order.comment}</td>
+        `;
+        ordersList.appendChild(row);
+      });
+    }
+
+    fetchOrders();
+  </script>
+</body>
+</html>
