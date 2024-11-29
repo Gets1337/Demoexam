@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Редактировать заявку</title>
+</head>
+<body>
+  <h1>Редактировать заявку</h1>
+  <form id="editForm">
+    <label for="number">Номер заявки:</label><br>
+    <input type="number" id="number" name="number" required><br><br>
+
+    <label for="device">Устройство:</label><br>
+    <input type="text" id="device" name="device"><br><br>
+
+    <label for="problemType">Тип проблемы:</label><br>
+    <input type="text" id="problemType" name="problemType"><br><br>
+
+    <label for="status">Статус:</label><br>
+    <input type="text" id="status" name="status"><br><br>
+
+    <label for="master">Мастер:</label><br>
+    <input type="text" id="master" name="master"><br><br>
+
+    <label for="stage">Этап</label><br>
+    <input type="text" id="stage" name="stage"><br><br>
+
+    <button type="submit">Сохранить изменения</button>
+  </form>
+
+  <script>
+    document.getElementById('editForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const number = document.getElementById('number').value;
+      const updatedEntry = {
+        device: document.getElementById('device').value,
+        problemType: document.getElementById('problemType').value,
+        status: document.getElementById('status').value,
+        master: document.getElementById('master').value,
+        stage: document.getElementById('stage').value,
+      };
+
+      fetch(`http://localhost:3000/${number}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedEntry),
+      })
+        .then(response => response.json())
+        .then(data => {
+          alert('Заявка обновлена');
+          document.getElementById('editForm').reset();
+        })
+        .catch(error => {
+          alert('Ошибка: ' + error);
+        });
+    });
+  </script>
+</body>
+</html>
